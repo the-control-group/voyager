@@ -19,8 +19,10 @@ use TCG\Voyager\Events\FormFieldsRegistered;
 use TCG\Voyager\Facades\Voyager as VoyagerFacade;
 use TCG\Voyager\FormFields\After\DescriptionHandler;
 use TCG\Voyager\Http\Middleware\VoyagerAdminMiddleware;
+use TCG\Voyager\Models\DataType;
 use TCG\Voyager\Models\MenuItem;
 use TCG\Voyager\Models\Setting;
+use TCG\Voyager\Observers\BreadObserver;
 use TCG\Voyager\Policies\BasePolicy;
 use TCG\Voyager\Policies\MenuItemPolicy;
 use TCG\Voyager\Policies\SettingPolicy;
@@ -129,6 +131,8 @@ class VoyagerServiceProvider extends ServiceProvider
         });
 
         $this->bootTranslatorCollectionMacros();
+
+        $this->registerObservers();
     }
 
     /**
@@ -357,5 +361,10 @@ class VoyagerServiceProvider extends ServiceProvider
     private function registerAppCommands()
     {
         $this->commands(Commands\MakeModelCommand::class);
+    }
+
+    private function registerObservers()
+    {
+        DataType::observe(BreadObserver::class);
     }
 }
