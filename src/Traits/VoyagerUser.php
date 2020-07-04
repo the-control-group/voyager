@@ -4,6 +4,7 @@ namespace TCG\Voyager\Traits;
 
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use TCG\Voyager\Facades\Voyager;
+use TCG\Voyager\Notifications\VoyagerPasswordResetNotification;
 
 /**
  * @property  \Illuminate\Database\Eloquent\Collection  roles
@@ -121,5 +122,17 @@ trait VoyagerUser
             $this->role->load('permissions');
             $this->load('roles.permissions');
         }
+    }
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param string $token
+     *
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new VoyagerPasswordResetNotification($token));
     }
 }

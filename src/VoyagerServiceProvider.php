@@ -21,6 +21,7 @@ use TCG\Voyager\Events\FormFieldsRegistered;
 use TCG\Voyager\Facades\Voyager as VoyagerFacade;
 use TCG\Voyager\FormFields\After\DescriptionHandler;
 use TCG\Voyager\Http\Middleware\VoyagerAdminMiddleware;
+use TCG\Voyager\Http\Middleware\VoyagerGuestMiddleware;
 use TCG\Voyager\Models\MenuItem;
 use TCG\Voyager\Models\Setting;
 use TCG\Voyager\Policies\BasePolicy;
@@ -111,6 +112,7 @@ class VoyagerServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'voyager');
 
         $router->aliasMiddleware('admin.user', VoyagerAdminMiddleware::class);
+        $router->aliasMiddleware('voyager.guest', VoyagerGuestMiddleware::class);
 
         $this->loadTranslationsFrom(realpath(__DIR__.'/../publishable/lang'), 'voyager');
 

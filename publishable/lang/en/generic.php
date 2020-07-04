@@ -72,6 +72,7 @@ return [
     'open'                   => 'Open',
     'options'                => 'Options',
     'password'               => 'Password',
+    'password_confirm'       => 'Confirm Password',
     'permissions'            => 'Permissions',
     'profile'                => 'Profile',
     'public_url'             => 'Public URL',
@@ -110,4 +111,5 @@ return [
     'whoopsie'               => 'Whoopsie!',
     'yes'                    => 'Yes',
     'yes_please'             => 'Yes, Please',
+    'please_wait'            => 'Please wait',
 ];
