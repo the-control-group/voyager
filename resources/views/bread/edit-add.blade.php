@@ -9,6 +9,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @stop
 
+@section('breadcrumbs')
+    @include('voyager::partials.breadcrumbs', ['segments' => [__('voyager::generic.'.($edit ? 'edit' : 'add'))]])
+@endsection
+
 @section('page_title', __('voyager::generic.'.($edit ? 'edit' : 'add')).' '.$dataType->getTranslatedAttribute('display_name_singular'))
 
 @section('page_header')

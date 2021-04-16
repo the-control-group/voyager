@@ -1,5 +1,9 @@
 @extends('voyager::master')
 
+@section('breadcrumbs')
+    @include('voyager::partials.breadcrumbs', ['segments' => [__('voyager::generic.database')]])
+@endsection
+
 @section('page_title', __('voyager::generic.viewing').' '.__('voyager::generic.database'))
 
 @section('page_header')

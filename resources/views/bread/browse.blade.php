@@ -1,5 +1,9 @@
 @extends('voyager::master')
 
+@section('breadcrumbs')
+    @include('voyager::partials.breadcrumbs')
+@endsection
+
 @section('page_title', __('voyager::generic.viewing').' '.$dataType->getTranslatedAttribute('display_name_plural'))
 
 @section('page_header')

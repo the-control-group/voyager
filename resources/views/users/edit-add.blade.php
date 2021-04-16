@@ -1,5 +1,9 @@
 @extends('voyager::master')
 
+@section('breadcrumbs')
+    @include('voyager::partials.breadcrumbs', ['segments' => [__('voyager::generic.'.(isset($dataTypeContent->id) ? 'edit' : 'add'))]])
+@endsection
+
 @section('page_title', __('voyager::generic.'.(isset($dataTypeContent->id) ? 'edit' : 'add')).' '.$dataType->getTranslatedAttribute('display_name_singular'))
 
 @section('css')

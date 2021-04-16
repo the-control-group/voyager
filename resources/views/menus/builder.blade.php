@@ -1,5 +1,9 @@
 @extends('voyager::master')
 
+@section('breadcrumbs')
+    @include('voyager::partials.breadcrumbs', ['segments' => [ route('voyager.'.$dataType->slug.'.edit', [$menu->id]) => $menu->name,	__('voyager::generic.menu_builder')]])
+@endsection
+
 @section('page_title', __('voyager::generic.menu_builder'))
 
 @section('page_header')
