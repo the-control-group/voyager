@@ -5,6 +5,7 @@ namespace TCG\Voyager\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use TCG\Voyager\Facades\Voyager;
+use TCG\Voyager\Http\Requests\MenusRequest;
 
 class VoyagerMenuController extends Controller
 {
@@ -32,12 +33,12 @@ class VoyagerMenuController extends Controller
         return redirect()
             ->route('voyager.menus.builder', [$menu])
             ->with([
-                'message'    => __('voyager::menu_builder.successfully_deleted'),
+                'message' => __('voyager::menu_builder.successfully_deleted'),
                 'alert-type' => 'success',
             ]);
     }
 
-    public function add_item(Request $request)
+    public function add_item(MenusRequest $request)
     {
         $menu = Voyager::model('Menu');
 
@@ -46,7 +47,7 @@ class VoyagerMenuController extends Controller
         $data = $this->prepareParameters(
             $request->all()
         );
-
+        $this->prepareMenuTranslations($data);
         unset($data['id']);
         $data['order'] = Voyager::model('MenuItem')->highestOrderMenuItem();
 
@@ -56,7 +57,6 @@ class VoyagerMenuController extends Controller
             // Prepare data before saving the menu
             $trans = $this->prepareMenuTranslations($data);
         }
-
         $menuItem = Voyager::model('MenuItem')->create($data);
 
         // Save menu translations
@@ -67,14 +67,15 @@ class VoyagerMenuController extends Controller
         return redirect()
             ->route('voyager.menus.builder', [$data['menu_id']])
             ->with([
-                'message'    => __('voyager::menu_builder.successfully_created'),
+                'message' => __('voyager::menu_builder.successfully_created'),
                 'alert-type' => 'success',
             ]);
     }
 
-    public function update_item(Request $request)
+    public function update_item(MenusRequest $request)
     {
         $id = $request->input('id');
+
         $data = $this->prepareParameters(
             $request->except(['id'])
         );
@@ -95,7 +96,7 @@ class VoyagerMenuController extends Controller
         return redirect()
             ->route('voyager.menus.builder', [$menuItem->menu_id])
             ->with([
-                'message'    => __('voyager::menu_builder.successfully_updated'),
+                'message' => __('voyager::menu_builder.successfully_updated'),
                 'alert-type' => 'success',
             ]);
     }
@@ -143,20 +144,23 @@ class VoyagerMenuController extends Controller
     /**
      * Prepare menu translations.
      *
-     * @param array $data menu data
+     * @param  array  $data  menu data
      *
      * @return JSON translated item
      */
     protected function prepareMenuTranslations(&$data)
     {
-        $trans = json_decode($data['title_i18n'], true);
+        if (isset($data['title_i18n'])) {
+            $trans = json_decode($data['title_i18n'], true);
 
-        // Set field value with the default locale
-        $data['title'] = $trans[config('voyager.multilingual.default', 'en')];
+            // Set field value with the default locale
+            $data['title'] = $trans[config('voyager.multilingual.default', 'en')];
 
-        unset($data['title_i18n']);     // Remove hidden input holding translations
-        unset($data['i18n_selector']);  // Remove language selector input radio
+            unset($data['title_i18n']);     // Remove hidden input holding translations
+            unset($data['i18n_selector']);  // Remove language selector input radio
 
-        return $trans;
+            return $trans;
+        }
+
     }
 }

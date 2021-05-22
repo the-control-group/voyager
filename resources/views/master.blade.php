@@ -107,6 +107,7 @@ if (\Illuminate\Support\Str::startsWith(Auth::user()->avatar, 'http://') || \Ill
             <div class="side-body padding-top">
                 @yield('page_header')
                 <div id="voyager-notifications"></div>
+                @include('voyager::errors')
                 @yield('content')
             </div>
         </div>
