@@ -65,7 +65,7 @@ class SettingsTableSeeder extends Seeder
                 'value'        => '',
                 'details'      => '',
                 'type'         => 'image',
-                'order'        => 5,
+                'order'        => 6,
                 'group'        => 'Admin',
             ])->save();
         }
@@ -114,6 +114,18 @@ class SettingsTableSeeder extends Seeder
                 'details'      => '',
                 'type'         => 'image',
                 'order'        => 4,
+                'group'        => 'Admin',
+            ])->save();
+        }
+
+        $setting = $this->findSetting('admin.favicon_image');
+        if (!$setting->exists) {
+            $setting->fill([
+                'display_name' => __('voyager::seeders.settings.admin.favicon_image'),
+                'value'        => '',
+                'details'      => '',
+                'type'         => 'image',
+                'order'        => 5,
                 'group'        => 'Admin',
             ])->save();
         }

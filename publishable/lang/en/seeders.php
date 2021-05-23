@@ -78,6 +78,7 @@ return [
             'background_image'           => 'Admin Background Image',
             'description'                => 'Admin Description',
             'description_value'          => 'Welcome to Voyager. The Missing Admin for Laravel',
+            'favicon_image'              => 'Admin Favicon Image',
             'google_analytics_client_id' => 'Google Analytics Client ID (used for admin dashboard)',
             'icon_image'                 => 'Admin Icon Image',
             'loader'                     => 'Admin Loader',
