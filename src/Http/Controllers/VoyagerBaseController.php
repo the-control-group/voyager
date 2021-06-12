@@ -518,7 +518,9 @@ class VoyagerBaseController extends Controller
             ];
 
         if ($res) {
-            event(new BreadDataDeleted($dataType, $data));
+            $eventData = $data;
+            $eventData['ids'] = $ids;
+            event(new BreadDataDeleted($dataType, $eventData));
         }
 
         return redirect()->route("voyager.{$dataType->slug}.index")->with($data);
