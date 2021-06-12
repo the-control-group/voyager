@@ -22,8 +22,11 @@ class CreateTranslationsTable extends Migration
             $table->string('locale');
 
             $table->text('value');
-
-            $table->unique(['table_name', 'column_name', 'foreign_key', 'locale']);
+            
+            $table->unique(
+            	['table_name', 'column_name', 'foreign_key', 'locale'],
+            	'translations_table_name_column_name_foreign_key_locale_unique'
+            );
 
             $table->timestamps();
         });
