@@ -5,6 +5,8 @@ namespace TCG\Voyager\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use TCG\Voyager\Facades\Voyager;
+use TCG\Voyager\Models\Permission;
+use TCG\Voyager\Models\Role;
 
 class VoyagerMenuController extends Controller
 {
@@ -15,8 +17,10 @@ class VoyagerMenuController extends Controller
         $this->authorize('edit', $menu);
 
         $isModelTranslatable = is_bread_translatable(Voyager::model('MenuItem'));
+        $permissions = Permission::all();
+        $roles = Role::all();
 
-        return Voyager::view('voyager::menus.builder', compact('menu', 'isModelTranslatable'));
+        return Voyager::view('voyager::menus.builder', compact('menu', 'isModelTranslatable', 'permissions', 'roles'));
     }
 
     public function delete_menu($menu, $id)

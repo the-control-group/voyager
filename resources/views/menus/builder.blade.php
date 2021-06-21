@@ -108,6 +108,25 @@
                         </select>
                         <input type="hidden" name="menu_id" value="{{ $menu->id }}">
                         <input type="hidden" name="id" id="m_id" value="">
+
+                        <br>
+                        <label for="permissions">{{ __('voyager::menu_builder.permissions') }}</label>
+                        <div>
+                            <select id="m_permission_name" class="col-6 form-control update-permissions">
+                                <option value="" disabled="disabled" selected="selected">Select Permission</option>
+                                @foreach($permissions as $permission)
+                            <option value="{{$permission->key}}">{{$permission->key}}</option>
+                            @endforeach
+                            </select>
+                            <select id="m_role_name" class="col-6 form-control update-permissions">
+                                <option value="" disabled="disabled" selected="selected">Select Role</option>
+                                @foreach($roles as $role)
+                            <option value="{{$role->name}}">{{$role->display_name}}</option>
+                            @endforeach
+                            </select>
+                            <input  id="m_permissions" name="permissions" type="hidden"><br>
+                        </div>
+
                     </div>
                     <div class="modal-footer">
                         <input type="submit" class="btn btn-success pull-right delete-confirm__" value="{{ __('voyager::generic.update') }}">
@@ -146,6 +165,12 @@
                 });
             @endif
 
+            $(".update-permissions").change((e) => {
+                let new_value = {};
+                if (e.target.id == "m_role_name" && e.target.value!="") {new_value.needs_role = e.target.value; $("#m_permission_name").val("")};
+                if (e.target.id == "m_permission_name" && e.target.value!="") {new_value.needs_permission = e.target.value; $("#m_role_name").val("")};
+                $("#m_permissions").val(JSON.stringify(new_value));
+            })
 
             $('.dd').nestable({
                 expandBtnHTML: '',
@@ -172,7 +197,8 @@
                 $m_icon_class  = $('#m_icon_class'),
                 $m_color       = $('#m_color'),
                 $m_target      = $('#m_target'),
-                $m_id          = $('#m_id');
+                $m_id          = $('#m_id'),
+                $m_permissions = $('#m_permission_name,#m_role_name');
 
             /**
              * Add Menu
@@ -208,6 +234,7 @@
                     $m_link_type.val('url').change();
                     $m_url.val('');
                     $m_icon_class.val('');
+                    $m_permissions.val('');
 
                 } else {
                     $m_form.attr('action', $m_form.data('action-update'));
@@ -222,9 +249,18 @@
                     $m_url.val(_src.data('url'));
                     $m_route.val(_src.data('route'));
                     $m_parameters.val(JSON.stringify(_src.data('parameters')));
+                    $m_permissions.val(JSON.stringify(_src.data('permissions')));
                     $m_icon_class.val(_src.data('icon_class'));
                     $m_color.val(_src.data('color'));
                     $m_id.val(id);
+
+                    let perms = _src.data('permissions');
+                    console.log("src", _src.data());
+                    if (perms) {
+                        console.log("setting perms",perms);
+                        if (perms.needs_permission) $("#m_permission_name").val(perms.needs_permission);
+                        if (perms.needs_role) $("#m_role_name").val(perms.needs_role);
+                    }
 
                     if(translatable){
                         $_str_i18n = $("#title" + id + "_i18n").val();

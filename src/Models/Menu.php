@@ -91,6 +91,8 @@ class Menu extends Model
             $options->locale = app()->getLocale();
         }
 
+        $items = static::checkItemPermissions($items);
+
         if ($type === '_json') {
             return $items;
         }
@@ -103,6 +105,31 @@ class Menu extends Model
     public function removeMenuFromCache()
     {
         \Cache::forget('voyager_menu_'.$this->name);
+    }
+
+    private static function checkItemPermissions($items)
+    {
+        // Filter items by permission
+        return $items->filter(function ($item) {
+
+            // check for special "needs_permission" field in parameters.
+            $needs_permission = $item->permissions->needs_permission ?? null;
+            if ($needs_permission && !Auth::user()->can($needs_permission)) {
+                return false;
+            }
+
+            // check for special "needs_role" field in parameters.
+            $needs_role = $item->permissions->needs_role ?? null;
+            if ($needs_role && !Auth::user()->hasRole($needs_role)) {
+                return false;
+            }
+
+            if ($item->children->count()) {
+                $item->setRelation('children', static::checkItemPermissions($item->children));
+            }
+
+            return true;
+        });
     }
 
     protected static function processItems($items)

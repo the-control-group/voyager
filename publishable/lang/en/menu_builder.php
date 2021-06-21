@@ -14,6 +14,7 @@ return [
     'icon_class_ph'        => 'Icon Class (optional)',
     'item_route'           => 'Route for the menu item',
     'item_title'           => 'Title of the Menu Item',
+    'permissions'          => 'Permissions',
     'link_type'            => 'Link type',
     'new_menu_item'        => 'New Menu Item',
     'open_in'              => 'Open In',
