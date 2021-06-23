@@ -61,6 +61,16 @@ class Image extends BaseType
 
             if (isset($this->options->thumbnails)) {
                 foreach ($this->options->thumbnails as $thumbnails) {
+                    $image_extension = $file->getClientOriginalExtension();
+                    
+                    if (isset($thumbnails->convert)) {
+                        $image_extension = $thumbnails->convert;
+                    }
+                    
+                    if (isset($thumbnails->quality)) {
+                        $resize_quality = $thumbnails->quality;
+                    }
+
                     if (isset($thumbnails->name) && isset($thumbnails->scale)) {
                         $scale = intval($thumbnails->scale) / 100;
                         $thumb_resize_width = $resize_width;
@@ -85,18 +95,18 @@ class Image extends BaseType
                                         $constraint->upsize();
                                     }
                                 }
-                            )->encode($file->getClientOriginalExtension(), $resize_quality);
+                            )->encode($image_extension, $resize_quality);
                     } elseif (isset($thumbnails->crop->width) && isset($thumbnails->crop->height)) {
                         $crop_width = $thumbnails->crop->width;
                         $crop_height = $thumbnails->crop->height;
                         $image = InterventionImage::make($file)
                             ->orientate()
                             ->fit($crop_width, $crop_height)
-                            ->encode($file->getClientOriginalExtension(), $resize_quality);
+                            ->encode($image_extension, $resize_quality);
                     }
 
                     Storage::disk(config('voyager.storage.disk'))->put(
-                        $path.$filename.'-'.$thumbnails->name.'.'.$file->getClientOriginalExtension(),
+                        $path.$filename.'-'.$thumbnails->name.'.'.$image_extension,
                         (string) $image,
                         'public'
                     );
