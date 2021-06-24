@@ -145,6 +145,11 @@ class Voyager
         return $this;
     }
 
+    public function getViewLoadingEvents()
+    {
+        return $this->viewLoadingEvents;
+    }
+
     public function addAfterFormField($handler)
     {
         if (!$handler instanceof AfterHandlerInterface) {
@@ -164,6 +169,16 @@ class Voyager
         return collect($this->formFields)->filter(function ($after) use ($driver) {
             return $after->supports($driver);
         });
+    }
+
+    public function getFormFields()
+    {
+        return $this->formFields;
+    }
+
+    public function getAfterFormFields()
+    {
+        return $this->afterFormFields;
     }
 
     public function addAction($action)
@@ -286,6 +301,11 @@ class Voyager
             $this->alertsCollected = true;
         }
 
+        return $this->alerts;
+    }
+
+    public function getAlerts()
+    {
         return $this->alerts;
     }
 
