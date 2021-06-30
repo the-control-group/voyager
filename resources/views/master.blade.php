@@ -10,13 +10,15 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
 
     <!-- Favicon -->
-    <?php $admin_favicon = Voyager::setting('admin.icon_image', ''); ?>
-    @if($admin_favicon == '')
+    @php
+        $admin_favicon = Voyager::setting('admin.icon_image', null);
+    @endphp
+    
+    @if(is_null($admin_favicon))
         <link rel="shortcut icon" href="{{ voyager_asset('images/logo-icon.png') }}" type="image/png">
     @else
         <link rel="shortcut icon" href="{{ Voyager::image($admin_favicon) }}" type="image/png">
     @endif
-
 
 
     <!-- App CSS -->
@@ -64,10 +66,10 @@
 </div>
 
 <?php
-if (\Illuminate\Support\Str::startsWith(Auth::user()->avatar, 'http://') || \Illuminate\Support\Str::startsWith(Auth::user()->avatar, 'https://')) {
-    $user_avatar = Auth::user()->avatar;
+if (\Illuminate\Support\Str::startsWith(auth()->user()->avatar, 'http://') || \Illuminate\Support\Str::startsWith(auth()->user()->avatar, 'https://')) {
+    $user_avatar = auth()->user()->avatar;
 } else {
-    $user_avatar = Voyager::image(Auth::user()->avatar);
+    $user_avatar = Voyager::image(auth()->user()->avatar);
 }
 ?>
 
