@@ -269,6 +269,9 @@
                                 <div class="col-md-10 no-padding-left-right">
                                     @if ($setting->type == "text")
                                         <input type="text" class="form-control" name="{{ $setting->key }}" value="{{ $setting->value }}">
+                                    @elseif($setting->type == "color")
+                                        <input type="color" class="form-control" name="{{ $setting->key }}"
+                                               value="{{ $setting->value }}">
                                     @elseif($setting->type == "text_area")
                                         <textarea class="form-control" name="{{ $setting->key }}">{{ $setting->value ?? '' }}</textarea>
                                     @elseif($setting->type == "rich_text_box")
@@ -389,6 +392,7 @@
                             <option value="select_dropdown">{{ __('voyager::form.type_selectdropdown') }}</option>
                             <option value="file">{{ __('voyager::form.type_file') }}</option>
                             <option value="image">{{ __('voyager::form.type_image') }}</option>
+                            <option value="color">{{ __('voyager::form.type_color') }}</option>
                         </select>
                     </div>
                     <div class="col-md-3">

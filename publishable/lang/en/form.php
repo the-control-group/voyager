@@ -12,4 +12,5 @@ return [
     'type_selectdropdown'          => 'Select Dropdown',
     'type_textarea'                => 'Text Area',
     'type_textbox'                 => 'Text Box',
+    'type_color'                   => 'Color',
 ];
