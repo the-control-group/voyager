@@ -19,12 +19,14 @@
                     @foreach ($segments as $segment)
                         @php
                         $url .= '/'.$segment;
+                        $segment = urldecode($segment);
+                        $segment = \Illuminate\Support\Facades\Lang::has('voyager::breadcrumbs.'.$segment) ? __('voyager::breadcrumbs.'.$segment) : ucfirst($segment);
                         @endphp
                         @if ($loop->last)
-                            <li>{{ ucfirst(urldecode($segment)) }}</li>
+                            <li>{{ $segment }}</li>
                         @else
                             <li>
-                                <a href="{{ $url }}">{{ ucfirst(urldecode($segment)) }}</a>
+                                <a href="{{ $url }}">{{ $segment }}</a>
                             </li>
                         @endif
                     @endforeach
