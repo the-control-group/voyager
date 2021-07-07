@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'loggingin'    => 'Sedang login',
-    'signin_below' => 'Sign In Dibawah:',
+    'loggingin'    => 'Sedang proses masuk',
+    'signin_below' => 'Masuk Dibawah:',
     'welcome'      => 'Selamat datang di Voyager. Admin untuk Laravel',
 ];

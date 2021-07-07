@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'additional_fields'=> 'Field tambahan',
     'category'         => 'Kategori Post',
     'content'          => 'Konten Post',
     'details'          => 'Detil Post',
@@ -16,7 +17,7 @@ return [
     'status_draft'     => 'draft',
     'status_pending'   => 'pending',
     'status_published' => 'published',
-    'title'            => 'Post Title',
-    'title_sub'        => 'Title dari post',
-    'update'           => 'Perbaharui Post',
+    'title'            => 'Judul Post',
+    'title_sub'        => 'Judul dari post',
+    'update'           => 'Perbarui Post',
 ];

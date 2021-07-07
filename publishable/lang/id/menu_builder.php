@@ -23,7 +23,7 @@ return [
     'static_url'           => 'URL Statis',
     'successfully_created' => 'Berhasil Membuat Menu Item Baru.',
     'successfully_deleted' => 'Berhasil Menghapus Menu Item.',
-    'successfully_updated' => 'Berhasil Memperbaharui Menu Item.',
+    'successfully_updated' => 'Berhasil Memperbarui Menu Item.',
     'updated_order'        => 'Berhasil Mengurutkan Menu Item.',
     'url'                  => 'URL dari Menu Item',
     'usage_hint'           => 'Kamu dapat mempertunjukkan menu ini dimanapun pada website dengan memanggil',
