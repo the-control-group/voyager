@@ -74,8 +74,12 @@ if (\Illuminate\Support\Str::startsWith(Auth::user()->avatar, 'http://') || \Ill
 <div class="app-container">
     <div class="fadetoblack visible-xs"></div>
     <div class="row content-container">
-        @include('voyager::dashboard.navbar')
-        @include('voyager::dashboard.sidebar')
+        @section('dashboard_navbar')
+            @include('voyager::dashboard.navbar')
+        @show
+        @section('dashboard_sidebar')
+            @include('voyager::dashboard.sidebar')
+        @show
         <script>
             (function(){
                     var appContainer = document.querySelector('.app-container'),
@@ -112,7 +116,9 @@ if (\Illuminate\Support\Str::startsWith(Auth::user()->avatar, 'http://') || \Ill
         </div>
     </div>
 </div>
-@include('voyager::partials.app-footer')
+@section('app_footer')
+    @include('voyager::partials.app-footer')
+@show
 
 <!-- Javascript Libs -->
 
