@@ -55,15 +55,13 @@
                                 <img class="img-responsive"
                                      src="{{ filter_var($dataTypeContent->{$row->field}, FILTER_VALIDATE_URL) ? $dataTypeContent->{$row->field} : Voyager::image($dataTypeContent->{$row->field}) }}">
                             @elseif($row->type == 'multiple_images')
-                                @if(json_decode($dataTypeContent->{$row->field}))
-                                    @foreach(json_decode($dataTypeContent->{$row->field}) as $file)
-                                        <img class="img-responsive"
-                                             src="{{ filter_var($file, FILTER_VALIDATE_URL) ? $file : Voyager::image($file) }}">
-                                    @endforeach
-                                @else
+                                @forelse (json_decode($dataTypeContent->{$row->field}) ?? [] as $file)
                                     <img class="img-responsive"
-                                         src="{{ filter_var($dataTypeContent->{$row->field}, FILTER_VALIDATE_URL) ? $dataTypeContent->{$row->field} : Voyager::image($dataTypeContent->{$row->field}) }}">
-                                @endif
+                                         style="display: inline-block; margin-top: 4px;"
+                                         src="{{ filter_var($file, FILTER_VALIDATE_URL) ? $file : Voyager::image($file) }}">
+                                @empty
+                                    {{ __('voyager::generic.none') }}
+                                @endforelse
                             @elseif($row->type == 'relationship')
                                  @include('voyager::formfields.relationship', ['view' => 'read', 'options' => $row->details])
                             @elseif($row->type == 'select_dropdown' && property_exists($row->details, 'options') &&
