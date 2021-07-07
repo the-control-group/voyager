@@ -8,6 +8,22 @@ use TCG\Voyager\Facades\Voyager;
 class VoyagerRoleController extends VoyagerBaseController
 {
     // POST BR(E)AD
+    public function edit(Request $request, $id)
+    {
+        $view = parent::edit($request, $id);
+
+        return $this->addPermissionList($view);
+    }
+
+    // POST BRE(A)D
+    public function create(Request $request)
+    {
+        $view = parent::create($request);
+
+        return $this->addPermissionList($view);
+    }
+
+    // POST BR(E)AD
     public function update(Request $request, $id)
     {
         $slug = $this->getSlug($request);
@@ -57,5 +73,16 @@ class VoyagerRoleController extends VoyagerBaseController
                 'message'    => __('voyager::generic.successfully_added_new')." {$dataType->getTranslatedAttribute('display_name_singular')}",
                 'alert-type' => 'success',
             ]);
+    }
+
+    // Passes all permissions and rolePermissions to the view
+    protected function addPermissionList($view)
+    {
+        if ($view instanceof \Illuminate\View\View) {
+            $view->permissions = Voyager::model('Permission')->all()->groupBy('table_name');
+            $view->rolePermissions = $view->dataTypeContent->permissions->pluck('key')->toArray() ?? [];
+        }
+
+        return $view;
     }
 }
