@@ -12,7 +12,7 @@
     $showLatLng = $showLatLng ? 'true' : 'false';
 @endphp
 
-<div id="coordinates-formfield">
+<div id="coordinates-formfield-{{ $row->field }}">
     <coordinates
         inline-template
         ref="coordinates"
@@ -107,8 +107,13 @@
             },
             mounted() {
                 // Load Google Maps script
+                const apiUrl = 'https://maps.googleapis.com/maps/api/js?key='+this.apiKey+'&callback=gMapVm.$refs.coordinates.initMap&libraries=places';
+                if (document.querySelectorAll('[src="' + apiUrl + '"]').length > 0) {
+                    return;
+                }
+
                 let gMapScript = document.createElement('script');
-                gMapScript.setAttribute('src', 'https://maps.googleapis.com/maps/api/js?key='+this.apiKey+'&callback=gMapVm.$refs.coordinates.initMap&libraries=places');
+                gMapScript.setAttribute('src', apiUrl);
                 document.head.appendChild(gMapScript);
             },
             methods: {
@@ -202,6 +207,6 @@
             }
         });
 
-        var gMapVm = new Vue({ el: '#coordinates-formfield' });
+        var gMapVm = new Vue({ el: '#coordinates-formfield-{{ $row->field }}' });
     </script>
 @endpush
