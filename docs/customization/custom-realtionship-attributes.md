@@ -19,3 +19,6 @@ public $additional_attributes = ['full_name'];
 
 Thats it! You can now select `full_name` in your Relationship.
 
+{% hint style="info" %}
+The default `User` model BREAD by default is namespaced as `\TCG\Voyager\Models\User`. Hence, if you are creating custom relationship attribute for your `User`, ensure to change this default namespace to your `User` model's namespace, so as to be able to declare custom attribute on your `User` model
+{% endhint %}
