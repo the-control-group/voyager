@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Config;
 
 class AddVoyagerUserFields extends Migration
 {
@@ -9,8 +10,9 @@ class AddVoyagerUserFields extends Migration
      */
     public function up()
     {
-        Schema::table('users', function ($table) {
-            if (!Schema::hasColumn('users', 'avatar')) {
+        $tableName = $this->_getUserTable();
+        Schema::table($tableName, function ($table) use ($tableName) {
+            if (!Schema::hasColumn($tableName, 'avatar')) {
                 $table->string('avatar')->nullable()->after('email')->default('users/default.png');
             }
             $table->bigInteger('role_id')->nullable()->after('id');
@@ -22,15 +24,28 @@ class AddVoyagerUserFields extends Migration
      */
     public function down()
     {
-        if (Schema::hasColumn('users', 'avatar')) {
-            Schema::table('users', function ($table) {
+        $tableName = $this->_getUserTable();
+        if (Schema::hasColumn($tableName, 'avatar')) {
+            Schema::table($tableName, function ($table) {
                 $table->dropColumn('avatar');
             });
         }
-        if (Schema::hasColumn('users', 'role_id')) {
-            Schema::table('users', function ($table) {
+        if (Schema::hasColumn($tableName, 'role_id')) {
+            Schema::table($tableName, function ($table) {
                 $table->dropColumn('role_id');
             });
         }
+    }
+
+    /**
+     * Get user table from configured user model.
+     *
+     * @return string User table from configured model
+     */
+    private function _getUserTable(): string
+    {
+        $userClass = Config::get('voyager.user.model');
+        $userModel = new $userClass();
+        return $userModel->getTable();
     }
 }
