@@ -24,9 +24,39 @@ class Image extends BaseType
 
             $resize_width = null;
             $resize_height = null;
+
+            if (isset($this->options->fit)) {
+                if (isset($this->options->fit) && (
+                    isset($this->options->fit->width) || isset($this->options->fit->height)
+                )) {
+                    if (isset($this->options->fit->width)) {
+                        $resize_width = $this->options->fit->width;
+                    }
+                    if (isset($this->options->fit->height)) {
+                        $resize_height = $this->options->fit->height;
+                    }
+                } else {
+                    $resize_width = $image->width();
+                    $resize_height = $image->height();
+                }
+
+                $resize_quality = isset($this->options->quality) ? intval($this->options->quality) : 75;
+
+                $image = $image->fit(
+                    $resize_width,
+                    $resize_height,
+                    function (Constraint $constraint) {
+                        $constraint->aspectRatio();
+                        if (isset($this->options->upsize) && !$this->options->upsize) {
+                            $constraint->upsize();
+                        }
+                    }
+                )->encode($file->getClientOriginalExtension(), $resize_quality);
+            }
+
             if (isset($this->options->resize) && (
-                isset($this->options->resize->width) || isset($this->options->resize->height)
-            )) {
+                    isset($this->options->resize->width) || isset($this->options->resize->height)
+                )) {
                 if (isset($this->options->resize->width)) {
                     $resize_width = $this->options->resize->width;
                 }
@@ -77,15 +107,15 @@ class Image extends BaseType
                         $image = InterventionImage::make($file)
                             ->orientate()
                             ->resize(
-                                $thumb_resize_width,
-                                $thumb_resize_height,
-                                function (Constraint $constraint) {
-                                    $constraint->aspectRatio();
-                                    if (isset($this->options->upsize) && !$this->options->upsize) {
-                                        $constraint->upsize();
-                                    }
+                            $thumb_resize_width,
+                            $thumb_resize_height,
+                            function (Constraint $constraint) {
+                                $constraint->aspectRatio();
+                                if (isset($this->options->upsize) && !$this->options->upsize) {
+                                    $constraint->upsize();
                                 }
-                            )->encode($file->getClientOriginalExtension(), $resize_quality);
+                            }
+                        )->encode($file->getClientOriginalExtension(), $resize_quality);
                     } elseif (isset($thumbnails->crop->width) && isset($thumbnails->crop->height)) {
                         $crop_width = $thumbnails->crop->width;
                         $crop_height = $thumbnails->crop->height;
