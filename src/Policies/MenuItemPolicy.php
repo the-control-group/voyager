@@ -26,7 +26,7 @@ class MenuItemPolicy extends BasePolicy
         }
 
         if (self::$datatypes == null) {
-            self::$datatypes = Voyager::model('DataType')::all()->keyBy('slug');
+            self::$datatypes = Voyager::model('DataType')::getCached()->keyBy('slug');
         }
 
         $regex = str_replace('/', '\/', preg_quote(route('voyager.dashboard')));

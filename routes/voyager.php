@@ -36,7 +36,7 @@ Route::group(['as' => 'voyager.'], function () {
         Route::get('profile', ['uses' => $namespacePrefix.'VoyagerUserController@profile', 'as' => 'profile']);
 
         try {
-            foreach (Voyager::model('DataType')::all() as $dataType) {
+            foreach (Voyager::model('DataType')::getCached() as $dataType) {
                 $breadController = $dataType->controller
                                  ? Str::start($dataType->controller, '\\')
                                  : $namespacePrefix.'VoyagerBaseController';
