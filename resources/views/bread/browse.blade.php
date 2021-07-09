@@ -179,7 +179,23 @@
                                                     <span class="badge badge-lg" style="background-color: {{ $data->{$row->field} }}">{{ $data->{$row->field} }}</span>
                                                 @elseif($row->type == 'text')
                                                     @include('voyager::multilingual.input-hidden-bread-browse')
-                                                    <div>{{ mb_strlen( $data->{$row->field} ) > 200 ? mb_substr($data->{$row->field}, 0, 200) . ' ...' : $data->{$row->field} }}</div>
+
+                                                    @php
+                                                        $content = mb_strlen( $data->{$row->field} ) > 200 ? mb_substr($data->{$row->field}, 0, 200) . ' ...' : $data->{$row->field};
+
+                                                        $link = null;
+                                                        if (property_exists($row->details, 'link')) {
+                                                            $link = collect($row->details->link)->first(function($view, $permission) use ($data) {
+                                                                return Auth::user()->can($permission, $data);
+                                                            });
+                                                        }
+                                                    @endphp
+
+                                                    @if ($link)
+                                                        <a href="{{ route('voyager.'.$dataType->slug.'.'.$link, $data->id) }}">{{ $content }}</a>
+                                                    @else
+                                                        <div>{{ $content }}</div>
+                                                    @endif
                                                 @elseif($row->type == 'text_area')
                                                     @include('voyager::multilingual.input-hidden-bread-browse')
                                                     <div>{{ mb_strlen( $data->{$row->field} ) > 200 ? mb_substr($data->{$row->field}, 0, 200) . ' ...' : $data->{$row->field} }}</div>
