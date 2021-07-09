@@ -323,7 +323,7 @@
     <script>
         $(document).ready(function () {
             @if (!$dataType->server_side)
-                var table = $('#dataTable').DataTable({!! json_encode(
+                var config = {!! json_encode(
                     array_merge([
                         "order" => $orderColumn,
                         "language" => __('voyager::datatable'),
@@ -332,7 +332,94 @@
                         ],
                     ],
                     config('voyager.dashboard.data_tables', []))
-                , true) !!});
+                , true) !!}
+
+                window.dataTableParams = {};
+                window.dataTable = null;
+                window.dataTableIsLoaded = false;
+                window.dataTableIsPopping = false;
+
+                config.fnInitComplete = function(dataTable) {
+                    window.dataTable = dataTable;
+                    window.dataTableDefaultDisplayLength = window.dataTable._iDisplayLength;
+
+                    updateTableFromUrl();
+
+                    window.dataTableIsLoaded = true;
+                };
+
+                window.onpopstate = function(e) {
+                    window.dataTableIsPopping = true;
+
+                    updateTableFromUrl();
+
+                    window.dataTableIsPopping = false;
+                }
+
+                function updateTableFromUrl() {
+                    window.dataTableParams = (location.search.substr(1) && location.search.substr(1).split('&').reduce(function(acc, kvp) {
+                        var parts = kvp.split('=');
+                        acc[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1]);
+
+                        return acc;
+                    }, {})) || {};
+
+                    if (window.dataTableParams.search) {
+                        window.dataTable.oInstance.fnFilter(window.dataTableParams.search);
+                    }
+
+                    if (window.dataTableParams.sort) {
+                        var sort = window.dataTableParams.sort.split(',').map(function(subSort) {
+                            return [
+                                subSort.split(':')[0],
+                                subSort.split(':')[1],
+                            ];
+                        });
+
+                        window.dataTable.oInstance.fnSort(sort);
+                    }
+
+                    window.dataTable._iDisplayLength = window.dataTableParams.perPage || window.dataTableDefaultDisplayLength;
+                    window.dataTable.oInstance.fnPageChange((window.dataTableParams.page || 1) - 1);
+                }
+
+                config.fnDrawCallback = function(oSettings) {
+                    if (window.dataTable && window.dataTableIsLoaded && !window.dataTableIsPopping) {
+                        updateUrlFromTable(oSettings);
+                    }
+                }
+
+                function updateUrlFromTable(oSettings) {
+                    var params = {};
+
+                    if (oSettings._iDisplayLength && oSettings._iDisplayLength !== window.dataTableDefaultDisplayLength) {
+                        params.perPage = oSettings._iDisplayLength;
+                    }
+
+                    if (oSettings._iDisplayStart && oSettings._iDisplayLength) {
+                        params.page = Math.floor(oSettings._iDisplayStart / oSettings._iDisplayLength) + 1;
+                    }
+
+                    if (oSettings.oPreviousSearch.sSearch) {
+                        params.search = oSettings.oPreviousSearch.sSearch;
+                    }
+
+                    if (oSettings.aaSorting) {
+                        if (oSettings.aaSorting.length !== @json($orderColumn ?? []).length || (oSettings.aaSorting[0] && (oSettings.aaSorting[0][0] !== @json($orderColumn ?? [])[0][0] || oSettings.aaSorting[0][1] !== @json($orderColumn ?? [])[0][1]))) {
+                            params.sort = oSettings.aaSorting.reduce(function(acc, sort) {
+                                return acc+sort[0]+':'+sort[1]+',';
+                            }, '').replace(/,$/, '');
+                        }
+                    }
+
+                    if (JSON.stringify(params) !== JSON.stringify(window.dataTableParams)) {
+                        history.pushState(null, null, location.pathname+'?'+$.param(params));
+
+                        window.dataTableParams = params;
+                    }
+                }
+
+                var table = $('#dataTable').DataTable(config);
             @else
                 $('#search-input select').select2({
                     minimumResultsForSearch: Infinity
