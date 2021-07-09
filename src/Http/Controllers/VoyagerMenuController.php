@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use TCG\Voyager\Facades\Voyager;
 
-class VoyagerMenuController extends Controller
+class VoyagerMenuController extends VoyagerBaseController
 {
     public function builder($id)
     {
