@@ -1,1 +1,1 @@
-<textarea @if($row->required == 1) required @endif class="form-control" name="{{ $row->field }}" rows="{{ $options->display->rows ?? 5 }}">{{ old($row->field, $dataTypeContent->{$row->field} ?? $options->default ?? '') }}</textarea>
+<textarea @if($row->required == 1) required @endif class="form-control" name="{{ $row->field }}" rows="{{ $options->display->rows ?? 5 }}" {!! outputAriaForHelperText($row) !!}>{{ old($row->field, $dataTypeContent->{$row->field} ?? $options->default ?? '') }}</textarea>

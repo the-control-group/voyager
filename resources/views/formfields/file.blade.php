@@ -21,4 +21,4 @@
       </div>
     @endif
 @endif
-<input @if($row->required == 1 && !isset($dataTypeContent->{$row->field})) required @endif type="file" name="{{ $row->field }}[]" multiple="multiple">
+<input @if($row->required == 1 && !isset($dataTypeContent->{$row->field})) required @endif type="file" name="{{ $row->field }}[]" multiple="multiple" {!! outputAriaForHelperText($row) !!}>

@@ -77,6 +77,16 @@ You can define separate validation rules for edit and add:
 
 You can find a list of all available validation rules in the [Laravel docs](https://laravel.com/docs/validation#available-validation-rules).
 
+## Helper Text
+
+You can define "helper text" for any field, which will be displayed under its label on the edit-add view:
+
+```php
+{
+    "helperText": "This text will appear under the field's label"
+}
+```
+
 ## Tagging
 
 Tagging gives you the possibility to add new items to a Belongs-To-Many relationship directly when editing or adding a BREAD.
@@ -95,16 +105,16 @@ This only stores the `display-column` so you have to make sure that all other fi
 
 ## Ordering Bread Items
 
-You can define the default order for browsing BREADs and order your BREAD items with drag-and-drop.  
+You can define the default order for browsing BREADs and order your BREAD items with drag-and-drop.
 For this you need to change the settings for your BREAD first:
 
 ![](../.gitbook/assets/bread_settings_order.png)
 
-**Order column** is the field in your table where the order is stored as an integer.  
-**Order display column** is the field which is shown in the drag-drop list.  
+**Order column** is the field in your table where the order is stored as an integer.
+**Order display column** is the field which is shown in the drag-drop list.
 **Order direction** the direction in which the field is ordered.
 
-After this you can go to your BREAD-browse page and you will see a button **Order.**  
+After this you can go to your BREAD-browse page and you will see a button **Order.**
 Clicking this button will bring you to the page where you can re-arrange your items:
 
 ![](../.gitbook/assets/bread_order.png)

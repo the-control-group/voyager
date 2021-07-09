@@ -11,9 +11,11 @@
 
 @if(isset($options->on) && isset($options->off))
     <input type="checkbox" name="{{ $row->field }}" class="{{ $class }}"
+        {!! outputAriaForHelperText($row) !!}
         data-on="{{ $options->on }}" {!! $checked ? 'checked="checked"' : '' !!}
         data-off="{{ $options->off }}">
 @else
     <input type="checkbox" name="{{ $row->field }}" class="{{ $class }}"
+        {!! outputAriaForHelperText($row) !!}
         @if($checked) checked @endif>
 @endif
