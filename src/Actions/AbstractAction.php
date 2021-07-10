@@ -50,4 +50,9 @@ abstract class AbstractAction implements ActionInterface
     {
         return $this->dataType->name === $this->getDataType() || $this->getDataType() === null;
     }
+
+    public function shouldActionDisplayOnRow($row)
+    {
+        return true;
+    }
 }

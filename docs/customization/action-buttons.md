@@ -81,6 +81,17 @@ public function shouldActionDisplayOnDataType()
 }
 ```
 
+If you want to show your action-button on a per-row-base, simply implement a method `shouldActionDisplayOnRow($row)` and add your condition(s)
+
+```php
+<?php
+
+public function shouldActionDisplayOnRow($row)
+{
+    return $row->id > 10;
+}
+```
+
 ## Mass Actions
 
 Mass actions are called for multiple instances of a model.  
