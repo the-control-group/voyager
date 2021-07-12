@@ -126,7 +126,8 @@
                                 @endif
                             @else
                                 @include('voyager::multilingual.input-hidden-bread-read')
-                                <p>{{ $dataTypeContent->{$row->field} }}</p>
+                                {{-- <p>{{ $dataTypeContent->{$row->field} }}</p> --}}
+                                <p>{{ is_array($dataTypeContent->{$row->field}) ? json_encode($dataTypeContent->{$row->field}, JSON_UNESCAPED_UNICODE) : $dataTypeContent->{$row->field} }}</p>
                             @endif
                         </div><!-- panel-body -->
                         @if(!$loop->last)
