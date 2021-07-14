@@ -341,6 +341,13 @@
                     <div class="new-image-info">
                         {{ __('voyager::media.width') }} <span :id="'new-image-width_'+this._uid"></span>, {{ __('voyager::media.height') }}<span :id="'new-image-height_'+this._uid"></span>
                     </div>
+                    <div class="aspect-ratio" v-if="showAspectRatio">
+                        <button type="button" v-on:click="setAspectRatio(16,9, $event)" class="btn btn-primary">16:9</button>
+                        <button type="button" v-on:click="setAspectRatio(4,3, $event)" class="btn btn-primary">4:3</button>
+                        <button type="button" v-on:click="setAspectRatio(1,1, $event)" class="btn btn-primary">1:1</button>
+                        <button type="button" v-on:click="setAspectRatio(2,3, $event)" class="btn btn-primary">2:3</button>
+                        <button type="button" v-on:click="setAspectRatio(0,0, $event)" class="btn btn-primary active">FREE</button>
+                    </div>
                 </div>
 
                 <div class="modal-footer">
@@ -408,6 +415,10 @@
                 default: true
             },
             allowCrop: {
+                type: Boolean,
+                default: true
+            },
+            showAspectRatio: {
                 type: Boolean,
                 default: true
             },
@@ -751,6 +762,12 @@
 					}
 				});
             },
+            setAspectRatio: function(x,y,e) {
+                $('.aspect-ratio button').removeClass('active')
+                e.target.classList.add('active');
+                var aspectRatio = (x == 0 && y ==0 ) ? NaN : x/y;
+                this.cropperImage.setAspectRatio(aspectRatio);
+            },
             addSelectedFiles: function () {
                 var vm = this;
                 for (i = 0; i < vm.selected_files.length; i++) {
@@ -882,13 +899,15 @@
 
             //Cropper
             if (this.allowCrop) {
-                var cropper = $(vm.$el).first().find('#crop_modal_'+vm._uid).first();
-                cropper.on('shown.bs.modal', function (e) {
-                    if (typeof cropper !== 'undefined' && cropper instanceof Cropper) {
-    					cropper.destroy();
+                var modalCropper = $(vm.$el).first().find('#crop_modal_'+vm._uid).first();
+                modalCropper.on('hide.bs.modal', (e) => {
+                    if (typeof vm.cropperImage !== 'undefined' && vm.cropperImage instanceof Cropper) {
+                        vm.cropperImage.destroy();
     				}
+                })
+                modalCropper.on('shown.bs.modal', function (e) {
     				var croppingImage = document.getElementById('cropping-image_'+vm._uid);
-    				cropper = new Cropper(croppingImage, {
+    				vm.cropperImage = new Cropper(croppingImage, {
     					crop: function(e) {
     						document.getElementById('new-image-width_'+vm._uid).innerText = Math.round(e.detail.width) + 'px';
     						document.getElementById('new-image-height_'+vm._uid).innerText = Math.round(e.detail.height) + 'px';
