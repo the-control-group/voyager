@@ -10,7 +10,7 @@ Before installing Voyager it is very important to take a quick moment to learn _
 * A media manager for your files
 * CRUD/BREAD generator \([learn more about BREAD here](../bread/introduction.md)\)
 
-Voyager is simply an admin for your Laravel app. Whatever you want your app to do on the front-end is completely up to you. You are in control of your application and you can use Voyager to make your life easier by adding data, editing users, creating menus, and many other administrative tasks.
+Voyager is simply an admin for your Laravel app. Whatever you want your app to do on the front-end is completely up to you. You are in control of your application and you can use Voyager to make your life easier by adding data, editing users, creating menus, and many other administrative tasks. It provides generic feature of building CRUD (Here in Voyager, it's known as BREAD) for any datatype in minimum time and less effort. Just imagine, You can build create, edit, update, delete functionalities in few minutes.
 
 ## What it isn't
 
