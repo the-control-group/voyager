@@ -64,10 +64,10 @@
 </div>
 
 <?php
-if (\Illuminate\Support\Str::startsWith(Auth::user()->avatar, 'http://') || \Illuminate\Support\Str::startsWith(Auth::user()->avatar, 'https://')) {
-    $user_avatar = Auth::user()->avatar;
+if (\Illuminate\Support\Str::startsWith(auth()->user()->avatar, 'http://') || \Illuminate\Support\Str::startsWith(auth()->user()->avatar, 'https://')) {
+    $user_avatar = auth()->user()->avatar;
 } else {
-    $user_avatar = Voyager::image(Auth::user()->avatar);
+    $user_avatar = Voyager::image(auth()->user()->avatar);
 }
 ?>
 
