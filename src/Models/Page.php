@@ -48,4 +48,16 @@ class Page extends Model
     {
         return $query->where('status', static::STATUS_ACTIVE);
     }
+
+    /**
+     * Scope a query to only include pages with image.
+     *
+     * @param  $query  \Illuminate\Database\Eloquent\Builder
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeHasImage( \Illuminate\Database\Eloquent\Builder $query)
+    {
+        return $query->whereNotNull('image');
+    }
 }

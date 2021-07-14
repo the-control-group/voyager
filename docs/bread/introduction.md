@@ -126,3 +126,5 @@ Next, go to the BREAD-settings for `posts` and look for the `Scope` input and se
 ![](../.gitbook/assets/bread_scope.jpg)
 
 After hitting `Submit` you will only see your own posts.
+
+Voyager BREAD editor permits to select several scopes.

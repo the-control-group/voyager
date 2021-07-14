@@ -251,13 +251,17 @@
                             <div class="row clearfix">
                                 @if (isset($scopes) && isset($dataType))
                                     <div class="col-md-3 form-group">
-                                        <label for="scope">{{ __('voyager::bread.scope') }}</label>
-                                        <select name="scope" class="select2 form-control">
-                                            <option value="">-- {{ __('voyager::generic.none') }} --</option>
+                                        <label for="scopes">{{ __('voyager::bread.scope') }}</label>
+                                        <!-- an mandatory hidden field to give data to request when the select is empty -->
+                                        <input type="hidden" name="scope[]" value="" />
+                                        <select id="scopes" name="scope[]" class="select2 form-control" multiple
+                                            data-placeholder="Optional scope(s)"
+                                            data-allow-clear="true">
+                                            <option></option>
                                             @foreach($scopes as $scope)
                                             <option value="{{ $scope }}"
-                                                    @if($dataType->scope == $scope) selected @endif
-                                            >{{ $scope }}</option>
+                                                @if(in_array($scope, Arr::wrap($dataType->scope))) selected @endif
+                                                >{{ $scope }}</option>
                                             @endforeach
                                         </select>
                                     </div>

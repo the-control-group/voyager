@@ -104,7 +104,7 @@ class VoyagerBreadController extends Controller
             }
 
             return redirect()->route('voyager.bread.index')->with($data);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return redirect()->route('voyager.bread.index')->with($this->alertException($e, 'Saving Failed'));
         }
     }
@@ -172,7 +172,7 @@ class VoyagerBreadController extends Controller
             $dataType->saveTranslations($translations);
 
             return redirect()->route('voyager.bread.index')->with($data);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return back()->with($this->alertException($e, __('voyager::generic.update_failed')));
         }
     }
@@ -211,12 +211,19 @@ class VoyagerBreadController extends Controller
         return redirect()->route('voyager.bread.index')->with($data);
     }
 
+    /**
+     * Return the list of model's scopes that have only one required parameters: the $query.
+     *
+     * @param string $model_name
+     * @return \Illuminate\Support\Collection
+     */
     public function getModelScopes($model_name)
     {
         $reflection = new ReflectionClass($model_name);
 
         return collect($reflection->getMethods())->filter(function ($method) {
-            return Str::startsWith($method->name, 'scope');
+            return ( Str::startsWith($method->name, 'scope')
+                && $method->getNumberOfRequiredParameters() == 1 );
         })->whereNotIn('name', ['scopeWithTranslations', 'scopeWithTranslation', 'scopeWhereTranslation'])->transform(function ($method) {
             return lcfirst(Str::replaceFirst('scope', '', $method->name));
         });

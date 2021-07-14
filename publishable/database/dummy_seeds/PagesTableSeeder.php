@@ -263,7 +263,24 @@ class PagesTableSeeder extends Seeder
                 'image'            => 'pages/page1.jpg',
                 'meta_description' => 'Yar Meta Description',
                 'meta_keywords'    => 'Keyword1, Keyword2',
-                'status'           => 'ACTIVE',
+                'status'           => Page::STATUS_ACTIVE,
+            ])->save();
+        }
+
+        // A page without image to try multi scopes #5353
+        $page = Page::firstOrNew([
+            'slug' => 'page-without-image',
+        ]);
+        if (!$page->exists) {
+            $page->fill([
+                'author_id' => 0,
+                'title'     => 'A page without image',
+                'excerpt'   => 'Lorem Ipsum on yksinkertaisesti testausteksti, jota tulostus- ja ladontateollisuudet käyttävät. ',
+                'body'      => '<h2>A page without image</h2><p>Lorem Ipsum on yksinkertaisesti testausteksti, jota tulostus- ja ladontateollisuudet käyttävät. </p>',
+                'image'            => null,
+                'meta_description' => null,
+                'meta_keywords'    => null,
+                'status'           => Page::STATUS_ACTIVE,
             ])->save();
         }
     }
