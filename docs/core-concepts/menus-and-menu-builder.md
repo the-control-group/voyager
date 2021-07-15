@@ -24,14 +24,19 @@ This will output your menu in an unstyled unordered list. If you do use bootstra
 menu('main', 'bootstrap');
 ```
 
-Taking it one more step further you can even specify your own view and stylize your menu however you would like. Say for instance that we had a file located at `resources/views/my_menu.blade.php`, which contained the following code:
-
+Taking it one more step further you can even specify your own view and stylize your menu however you would like. Say for instance that we have a menu named `frontpage_menu`. In any of your blade files, you can do:
 ```markup
+@php
+$items =  menu('frontpage_menu','_json');
+
+@endphp
+
 <ul>
     @foreach($items as $menu_item)
-        <li><a href="{{ $menu_item->link() }}">{{ $menu_item->title }}</a></li>
+        <li class="mycustomclass"><a href="{{ $menu_item->link()}}" class="anothercustomclass">{{ $menu_item->title }}</a></li>
     @endforeach
 </ul>
+
 ```
 
 Then anywhere you wanted to display your menu you can now call:
