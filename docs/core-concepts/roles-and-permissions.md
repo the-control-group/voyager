@@ -55,7 +55,7 @@ Check the permission for each role that you wish to grant access to the site at 
 You may create your own [gate](https://laravel.com/docs/authorization#gates) 
 
 ```php
-Gate::define(`browse_create_bill`, function ($user) {
+Gate::define('browse_create_bill', function ($user) {
     return $user->hasPermission(`browse_create_bill`);
 });
 ```
