@@ -6,3 +6,4 @@ build
 .lock
 composer.lock
 .phpunit.result.cache
+nbproject
