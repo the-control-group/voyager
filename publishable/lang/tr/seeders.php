@@ -22,6 +22,7 @@ return [
         'post_image'       => 'Yazı Görseli',
         'remember_token'   => 'Token\'ı Hatırla',
         'role'             => 'Rol',
+        'roles'            => 'Roller',
         'seo_title'        => 'SEO Başlığı',
         'slug'             => 'Kısa ad (URL)',
         'status'           => 'Durum',

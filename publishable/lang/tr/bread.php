@@ -44,7 +44,7 @@ return [
     'server_pagination'      => 'Server-side Sayfalama',
     'soft_deletes_on'        => 'Silinenleri Göster',
     'soft_deletes_off'       => 'Silinenleri Gizle',
-    'updated_order'          => 'Order updated successfully',
+    'updated_order'          => 'Sıralama başarıyla güncellendi',
     'url_slug'               => 'Kısa ad (URL - eşsiz olmalı)',
     'url_slug_ph'            => 'Kısa ad (URL - ör. posts)',
 ];
