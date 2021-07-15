@@ -146,6 +146,10 @@ return [
         'widgets' => [
 
         ],
+        
+        // The admin is able to define the number of widgets to display per line
+        // Related to file tcg/src/Voyager.php
+        'widgets_per_line' => 3,
 
     ],
 
